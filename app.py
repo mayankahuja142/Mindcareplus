@@ -30,7 +30,8 @@ def create_app(config_class=Config):
         db.create_all()
 
     return app
+import os
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
