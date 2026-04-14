@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1 style="color: var(--primary-color); margin-bottom: 30px;">Your Journal</h1>
+
+    <div class="glass-card mb-4 fade-in">
+        <h2 style="font-size: 1.5rem; margin-bottom: 20px;">New Entry</h2>
+        <form method="POST">
+            <input type="text" name="title" placeholder="Title" required>
+            <textarea name="content" rows="4" placeholder="How are you feeling? Write it down..." required></textarea>
+            <button type="submit" class="btn btn-primary">Save Entry</button>
+        </form>
+    </div>
+
+    <h2 style="color: var(--text-secondary); margin-bottom: 20px;" class="fade-in" style="animation-delay: 0.1s;">Past Entries</h2>
+    <div class="grid">
+        {% for entry in entries %}
+        <div class="glass-card fade-in" style="animation-delay: {{ 0.2 + loop.index * 0.1 }}s;">
+            <h3 style="color: var(--primary-color); margin-bottom: 10px;">{{ entry.title }}</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 15px;">{{ entry.timestamp.strftime('%B %d, %Y') }}</p>
+            <p style="line-height: 1.6;">{{ entry.content }}</p>
+        </div>
+        {% else %}
+        <p style="color: var(--text-secondary);">No journal entries yet. Start writing!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

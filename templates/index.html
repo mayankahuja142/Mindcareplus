@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center" style="margin-top: 10vh;">
+    <h1 style="font-size: 4.5rem; color: var(--primary-color); margin-bottom: 10px;">MindCare+</h1>
+    <h2 style="font-size: 2rem; color: var(--text-secondary); margin-bottom: 40px; font-weight: 400;">Feel Better, One Day at a Time 💙</h2>
+    
+    <div style="margin-bottom: 80px;">
+        <a href="{{ url_for('auth.signup') }}" class="btn btn-primary" style="margin-right: 20px; font-size: 1.2rem; padding: 15px 30px;">Get Started</a>
+        <a href="{{ url_for('auth.login') }}" class="btn" style="font-size: 1.2rem; padding: 15px 30px;">Login</a>
+    </div>
+
+    <div class="grid">
+        <div class="glass-card">
+            <h3 style="color: var(--primary-color); font-size: 1.5rem;">📊 Mood Tracking</h3>
+            <p style="color: var(--text-secondary); line-height: 1.6;">Log your daily emotional states and visualize your journey over time.</p>
+        </div>
+        <div class="glass-card">
+            <h3 style="color: var(--primary-color); font-size: 1.5rem;">📓 Personal Journal</h3>
+            <p style="color: var(--text-secondary); line-height: 1.6;">Reflect on your thoughts with a beautiful, private space.</p>
+        </div>
+        <div class="glass-card">
+            <h3 style="color: var(--primary-color); font-size: 1.5rem;">🤖 AI Support</h3>
+            <p style="color: var(--text-secondary); line-height: 1.6;">Chat with our calm, empathetic AI assistant anytime you need to talk.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

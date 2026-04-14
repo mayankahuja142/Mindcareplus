@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container text-center">
+    <h1 style="color: var(--primary-color); margin-bottom: 10px;">Breathing Exercise</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 30px;">Follow the circle to relax your mind.</p>
+    
+    <div class="glass-card fade-in" style="padding: 60px;">
+        <div class="breathing-container">
+            <div id="timerDisplay" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 20px; font-weight: 600; display: none;">01:00</div>
+            <div class="circle" id="breatheCircle">Ready</div>
+        </div>
+        <div class="mt-4" id="controls">
+            <select id="timerDuration" class="btn" style="margin-right: 10px; background: rgba(255,255,255,0.8); cursor: pointer; color: var(--primary-color);">
+                <option value="60">1 Minute</option>
+                <option value="120">2 Minutes</option>
+            </select>
+            <button id="startBtn" class="btn btn-primary" onclick="startBreathing()">Start</button>
+            <button id="stopBtn" class="btn" style="display: none; background: #ff4757; color: white;" onclick="stopBreathing()">Stop</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+let breathingInterval;
+let timerInterval;
+let breathingTimeout1;
+let breathingTimeout2;
+
+function startBreathing() {
+    const circle = document.getElementById('breatheCircle');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const durationSelect = document.getElementById('timerDuration');
+    const timerDisplay = document.getElementById('timerDisplay');
+    
+    startBtn.style.display = 'none';
+    durationSelect.style.display = 'none';
+    stopBtn.style.display = 'inline-block';
+    
+    let timeLeft = parseInt(durationSelect.value);
+    timerDisplay.style.display = 'block';
+    updateTimerDisplay(timeLeft);
+    
+    const inhaleTime = 4000;
+    const holdTime = 4000;
+    const exhaleTime = 4000;
+    const totalCycle = inhaleTime + holdTime + exhaleTime;
+
+    function breatheAnimation() {
+        circle.textContent = 'Breathe In';
+        circle.className = 'circle inhale';
+        
+        breathingTimeout1 = setTimeout(() => {
+            circle.textContent = 'Hold';
+            
+            breathingTimeout2 = setTimeout(() => {
+                circle.textContent = 'Breathe Out';
+                circle.className = 'circle exhale';
+            }, holdTime);
+        }, inhaleTime);
+    }
+    
+    breatheAnimation();
+    breathingInterval = setInterval(breatheAnimation, totalCycle);
+    
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay(timeLeft);
+        if(timeLeft <= 0) {
+            stopBreathing();
+            circle.textContent = 'Finished!';
+        }
+    }, 1000);
+}
+
+function stopBreathing() {
+    clearInterval(breathingInterval);
+    clearInterval(timerInterval);
+    clearTimeout(breathingTimeout1);
+    clearTimeout(breathingTimeout2);
+    
+    const circle = document.getElementById('breatheCircle');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const durationSelect = document.getElementById('timerDuration');
+    const timerDisplay = document.getElementById('timerDisplay');
+    
+    circle.className = 'circle'; // Reset to original size
+    circle.textContent = 'Ready';
+    
+    startBtn.style.display = 'inline-block';
+    durationSelect.style.display = 'inline-block';
+    stopBtn.style.display = 'none';
+    timerDisplay.style.display = 'none';
+}
+
+function updateTimerDisplay(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    document.getElementById('timerDisplay').textContent = 
+        `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+</script>
+{% endblock %}

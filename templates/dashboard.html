@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 style="color: var(--primary-color); margin-bottom: 30px;">Welcome back, {{ session.username }}!</h1>
+    
+    <div class="glass-card text-center mb-4 fade-in" style="animation-delay: 0.1s;">
+        <h2 style="font-weight: 500;">How are you feeling today?</h2>
+        <div class="mood-selector" style="margin-top: 20px;">
+            <button onclick="addMood(1)" title="Sad">😔</button>
+            <button onclick="addMood(2)" title="Down">😕</button>
+            <button onclick="addMood(3)" title="Neutral">😐</button>
+            <button onclick="addMood(4)" title="Good">🙂</button>
+            <button onclick="addMood(5)" title="Great">😄</button>
+        </div>
+    </div>
+
+    <div class="grid mb-4">
+        <div class="glass-card text-center fade-in" style="animation-delay: 0.2s;">
+            <h3 style="color: var(--text-secondary); font-weight: 500;">Average Mood</h3>
+            <h2 style="font-size: 3.5rem; color: var(--primary-color); margin-top: 10px;">{{ avg_mood }}</h2>
+        </div>
+        <div class="glass-card text-center fade-in" style="animation-delay: 0.3s;">
+            <h3 style="color: var(--text-secondary); font-weight: 500;">Latest Check-in</h3>
+            <h2 style="font-size: 3.5rem; margin-top: 10px;">
+                {% if recent_moods %}
+                    {{ recent_moods[0].emoji }}
+                {% else %}
+                    -
+                {% endif %}
+            </h2>
+        </div>
+        <div class="glass-card text-center fade-in" style="animation-delay: 0.4s;">
+            <h3 style="color: var(--text-secondary); font-weight: 500;">Entries</h3>
+            <h2 style="font-size: 3.5rem; color: var(--primary-color); margin-top: 10px;">{{ recent_moods|length }}</h2>
+        </div>
+    </div>
+
+    <div class="glass-card fade-in" style="animation-delay: 0.5s;">
+        <h3 style="color: var(--primary-color); margin-bottom: 20px;">Mood History</h3>
+        <canvas id="moodChart" style="max-height: 350px;"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+{% endblock %}
