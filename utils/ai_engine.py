@@ -2,12 +2,18 @@ import os
 from openai import OpenAI
 
 def get_openai_response(prompt):
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key or api_key == "your_openai_api_key_here":
-        return "OpenAI API key is not configured. Please add it to your .env file."
+    # Ab hum OpenAI ki library use karenge lekin Groq ke server se baat karenge
+    api_key = os.environ.get("GROQ_API_KEY")
+    
+    if not api_key:
+        return "Groq API key is not configured. Please add it to Render Environment Variables."
     
     try:
-        client = OpenAI(api_key=api_key)
+        # Base URL badalna zaroori hai taaki request Groq ke paas jaye
+        client = OpenAI(
+            api_key=api_key,
+            base_url="https://api.groq.com/openai/v1"
+        )
         
         system_message = (
             "You are a calm, empathetic mental health support assistant. "
@@ -15,8 +21,9 @@ def get_openai_response(prompt):
             "Your tone should be light, soft, calming, and premium. Help the user feel better or just listen."
         )
 
+        # Model ka naam Groq wala use karenge (Llama 3.1 8B best aur free hai)
         response = client.chat.completions.create(
-            model='gpt-4o-mini',
+            model="llama-3.1-8b-instant",
             messages=[
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": prompt}
