@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, session
 from routes.auth import login_required
-from utils.gemini import get_gemini_response
+from utils.ai_engine import get_openai_response
 
 chatbot_bp = Blueprint('chatbot', __name__)
 
@@ -17,5 +17,5 @@ def chat_api():
     if not message:
         return jsonify({'error': 'Message is required'}), 400
         
-    reply = get_gemini_response(message)
+    reply = get_openai_response(message)
     return jsonify({'response': reply})
