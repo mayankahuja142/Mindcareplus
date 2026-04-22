@@ -16,7 +16,7 @@ def get_openai_response(prompt):
         )
 
         response = client.chat.completions.create(
-            model='gpt-4-mini',
+            model='gpt-4o-mini',
             messages=[
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": prompt}
